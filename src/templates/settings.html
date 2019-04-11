@@ -1,0 +1,51 @@
+{% import "_includes/forms" as forms %}
+
+
+{{ forms.autosuggestField({
+    label: "Region"|t('blitz'),
+    id: 'region',
+    name: 'region',
+    instructions: "A valid AWS region (`{regions}`)."|t('blitz', {regions: regions|join(', ')}),
+    suggestEnvVars: true,
+    suggestions: craft.cp.getEnvSuggestions(),
+    value: purger.region,
+    errors: purger.getErrors('region'),
+    required: true,
+    first: true,
+}) }}
+
+{{ forms.autosuggestField({
+    label: "API Key"|t('blitz'),
+    id: 'apiKey',
+    name: 'apiKey',
+    instructions: "An API key for your AWS account."|t('blitz'),
+    suggestEnvVars: true,
+    suggestions: craft.cp.getEnvSuggestions(),
+    value: purger.apiKey,
+    errors: purger.getErrors('apiKey'),
+    required: true,
+}) }}
+
+{{ forms.autosuggestField({
+    label: "API Secret"|t('blitz'),
+    id: 'apiSecret',
+    name: 'apiSecret',
+    instructions: "An API secret for your AWS account."|t('blitz'),
+    suggestEnvVars: true,
+    suggestions: craft.cp.getEnvSuggestions(),
+    value: purger.apiSecret,
+    errors: purger.getErrors('apiSecret'),
+    required: true,
+}) }}
+
+{{ forms.autosuggestField({
+    label: "Distribution ID"|t('blitz'),
+    id: 'distributionId',
+    name: 'distributionId',
+    instructions: "The ID of the CloudFlare distribution that should be purged."|t('blitz'),
+    suggestEnvVars: true,
+    suggestions: craft.cp.getEnvSuggestions(),
+    value: purger.distributionId,
+    errors: purger.getErrors('distributionId'),
+    required: true,
+}) }}
