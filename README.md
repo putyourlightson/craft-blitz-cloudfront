@@ -28,6 +28,21 @@ Then add the class to the `cachePurgerTypes` config setting in `config/blitz.php
 ],
 ```
 
+You can then select the purger and settings either in the control panel or in `config/blitz.php`.
+
+```
+// The purger type to use.
+'cachePurgerType' => 'putyourlightson\blitzcloudfront\CloudFrontPurger',
+
+// The purger settings.
+'cachePurgerSettings' => [
+   'region' => 'us-east-1',
+   'apiKey' => 'p_prod_abcdefgh1234567890',
+   'apiSecret' => 's_prod_abcdefgh1234567890',
+   'distributionId' => '123456',
+],
+```
+
 ## Documentation
 
 Read the documentation at [putyourlightson.com/craft-plugins/blitz/docs](https://putyourlightson.com/craft-plugins/blitz/docs#/?id=custom-reverse-proxy-purgers).
