@@ -9,9 +9,14 @@ use Aws\CloudFront\CloudFrontClient;
 use Aws\Exception\AwsException;
 use Aws\Result;
 use Craft;
+use craft\behaviors\EnvAttributeParserBehavior;
+use craft\events\RegisterTemplateRootsEvent;
+use craft\web\View;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
+use putyourlightson\blitz\events\RefreshCacheEvent;
 use putyourlightson\blitz\helpers\SiteUriHelper;
 use putyourlightson\blitz\models\SiteUriModel;
+use yii\base\Event;
 
 /**
  * @property mixed $settingsHtml
@@ -69,20 +74,37 @@ class CloudFrontPurger extends BaseCachePurger
         return Craft::t('blitz', 'CloudFront Purger');
     }
 
+    // Public Methods
+    // =========================================================================
+
     /**
      * @inheritdoc
      */
-    public static function getTemplatesRoot(): array
+    public function init()
     {
-        $templatePage = __DIR__.'/templates/';
-
-        return [
-            'blitz-cloudfront' => $templatePage
-        ];
+        Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
+            function(RegisterTemplateRootsEvent $event) {
+                $event->roots['blitz-cloudfront'] = __DIR__.'/templates/';
+            }
+        );
     }
 
-    // Public Methods
-    // =========================================================================
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['parser'] = [
+            'class' => EnvAttributeParserBehavior::class,
+            'attributes' => [
+                'apiKey',
+                'apiSecret',
+            ],
+        ];
+
+        return $behaviors;
+    }
 
     /**
      * @inheritdoc
@@ -111,17 +133,20 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function purge(SiteUriModel $siteUri)
-    {
-        $this->_sendRequest([$siteUri->getUrl()]);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function purgeUris(array $siteUris)
     {
+        $event = new RefreshCacheEvent(['siteUris' => $siteUris]);
+        $this->trigger(self::EVENT_BEFORE_PURGE_CACHE, $event);
+
+        if (!$event->isValid) {
+            return;
+        }
+
         $this->_sendRequest(SiteUriHelper::getUrls($siteUris));
+
+        if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_CACHE)) {
+            $this->trigger(self::EVENT_AFTER_PURGE_CACHE, $event);
+        }
     }
 
     /**
@@ -129,7 +154,18 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function purgeAll()
     {
+        $event = new RefreshCacheEvent();
+        $this->trigger(self::EVENT_BEFORE_PURGE_ALL_CACHE, $event);
+
+        if (!$event->isValid) {
+            return;
+        }
+
         $this->_sendRequest(['/*']);
+
+        if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_ALL_CACHE)) {
+            $this->trigger(self::EVENT_AFTER_PURGE_ALL_CACHE, $event);
+        }
     }
 
     /**

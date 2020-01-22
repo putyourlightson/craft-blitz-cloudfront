@@ -1,7 +1,7 @@
 {
     "name": "putyourlightson/craft-blitz-cloudfront",
     "description": "CloudFront cache purger for the Blitz plugin for Craft CMS.",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "type": "blitz-purger",
     "license": "proprietary",
     "keywords": [
@@ -15,7 +15,7 @@
     ],
     "require": {
         "craftcms/cms": "^3.1.0",
-        "putyourlightson/craft-blitz": "^2.0.0",
+        "putyourlightson/craft-blitz": "^3.0.0",
         "aws/aws-sdk-php": "^3.0.0"
     },
     "autoload": {
@@ -32,6 +32,6 @@
         "name": "Blitz CloudFront Purger",
         "developer": "PutYourLightsOn",
         "developerUrl": "https://putyourlightson.com/",
-        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v1/CHANGELOG.md"
+        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v2/CHANGELOG.md"
     }
 }
