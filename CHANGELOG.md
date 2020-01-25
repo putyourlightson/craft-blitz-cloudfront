@@ -1,5 +1,10 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.1 - 2020-01-25
+
+### Fixed
+- Fixed bug in getting URLS to purge.
+
 ## 2.0.0 - 2020-01-22
 - Changed minimum required version of Blitz to 3.0.0.
 

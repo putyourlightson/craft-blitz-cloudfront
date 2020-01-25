@@ -142,7 +142,7 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
-        $this->_sendRequest(SiteUriHelper::getUrls($siteUris));
+        $this->_sendRequest(SiteUriHelper::getUrlsFromSiteUris($siteUris));
 
         if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_CACHE)) {
             $this->trigger(self::EVENT_AFTER_PURGE_CACHE, $event);
