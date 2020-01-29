@@ -2,19 +2,6 @@
 
 
 {{ forms.autosuggestField({
-    label: "Region"|t('blitz'),
-    id: 'region',
-    name: 'region',
-    instructions: "A valid AWS region (`{regions}`)."|t('blitz', {regions: regions|join(', ')}),
-    suggestEnvVars: true,
-    suggestions: craft.cp.getEnvSuggestions(),
-    value: purger.region,
-    errors: purger.getErrors('region'),
-    required: true,
-    first: true,
-}) }}
-
-{{ forms.autosuggestField({
     label: "API Key"|t('blitz'),
     id: 'apiKey',
     name: 'apiKey',
@@ -24,6 +11,7 @@
     value: purger.apiKey,
     errors: purger.getErrors('apiKey'),
     required: true,
+    first: true,
 }) }}
 
 {{ forms.autosuggestField({

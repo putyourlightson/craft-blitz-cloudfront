@@ -15,7 +15,6 @@ use craft\web\View;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
 use putyourlightson\blitz\helpers\SiteUriHelper;
-use putyourlightson\blitz\models\SiteUriModel;
 use yii\base\Event;
 
 /**
@@ -27,18 +26,20 @@ class CloudFrontPurger extends BaseCachePurger
     // =========================================================================
 
     /**
-     * @var string[]
+     * The CloudFront service endpoint only allows connecting through a single region.
+     * https://docs.aws.amazon.com/general/latest/gr/cf_region.html
+     *
+     * @var string
      */
-    const REGIONS = [
-        'us-east-1',
-        'us-west-2',
-        'eu-west-1',
-    ];
+    const REGION = 'us-east-1';
 
     // Properties
     // =========================================================================
 
     /**
+     * @deprecated Since only a single region is allowed.
+     * TODO: Remove in version 3.0.0
+     *
      * @var string
      */
     public $region;
@@ -123,10 +124,7 @@ class CloudFrontPurger extends BaseCachePurger
     public function rules()
     {
         return [
-            [['region', 'apiKey', 'apiSecret'], 'required'],
-            [['region'], 'in', 'range' => self::REGIONS, 'message' => Craft::t('blitz',
-                'The region provided is not a valid AWS region.'
-            )],
+            [['apiKey', 'apiSecret'], 'required'],
         ];
     }
 
@@ -179,7 +177,7 @@ class CloudFrontPurger extends BaseCachePurger
             return false;
         }
 
-        return $response->getStatusCode() == 200;
+        return true;
     }
 
     /**
@@ -189,7 +187,6 @@ class CloudFrontPurger extends BaseCachePurger
     {
         return Craft::$app->getView()->renderTemplate('blitz-cloudfront/settings', [
             'purger' => $this,
-            'regions' => self::REGIONS,
         ]);
     }
 
@@ -209,7 +206,7 @@ class CloudFrontPurger extends BaseCachePurger
 
         $client = new CloudFrontClient([
             'version' => $this->_version,
-            'region' => $this->region,
+            'region' => self::REGION,
             'credentials' => [
                 'key' => Craft::parseEnv($this->apiKey),
                 'secret' => Craft::parseEnv($this->apiSecret),
