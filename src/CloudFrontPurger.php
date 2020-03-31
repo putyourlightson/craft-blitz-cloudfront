@@ -14,7 +14,6 @@ use craft\events\RegisterTemplateRootsEvent;
 use craft\web\View;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
-use putyourlightson\blitz\helpers\SiteUriHelper;
 use yii\base\Event;
 
 /**
@@ -140,7 +139,14 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
-        $this->_sendRequest(SiteUriHelper::getUrlsFromSiteUris($siteUris));
+        // Get paths from site URIs (https://github.com/putyourlightson/craft-blitz-cloudfront/issues/1)
+        $paths = [];
+
+        foreach ($siteUris as $siteUri) {
+            $paths[] = '/' . $siteUri->uri;
+        }
+
+        $this->_sendRequest($paths);
 
         if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_CACHE)) {
             $this->trigger(self::EVENT_AFTER_PURGE_CACHE, $event);
