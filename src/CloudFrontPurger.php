@@ -142,7 +142,7 @@ class CloudFrontPurger extends BaseCachePurger
         // Get paths from site URIs (https://github.com/putyourlightson/craft-blitz-cloudfront/issues/1)
         $paths = [];
 
-        foreach ($siteUris as $siteUri) {
+        foreach ($event->siteUris as $siteUri) {
             $paths[] = '/' . $siteUri->uri;
         }
 
@@ -210,18 +210,26 @@ class CloudFrontPurger extends BaseCachePurger
     {
         $result = '';
 
-        $client = new CloudFrontClient([
+        $config = [
             'version' => $this->_version,
             'region' => self::REGION,
-            'credentials' => [
+        ];
+
+        $key = Craft::parseEnv($this->apiKey);
+        $secret = Craft::parseEnv($this->apiSecret);
+
+        if ($key && $secret) {
+            $config['credentials'] = [
                 'key' => Craft::parseEnv($this->apiKey),
                 'secret' => Craft::parseEnv($this->apiSecret),
-            ],
-        ]);
+            ];
+        }
+
+        $client = new CloudFrontClient($config);
 
         try {
             $result = $client->createInvalidation([
-                'DistributionId' => $this->distributionId,
+                'DistributionId' => Craft::parseEnv($this->distributionId),
                 'InvalidationBatch' => [
                     'CallerReference' => time(),
                     'Paths' => [
