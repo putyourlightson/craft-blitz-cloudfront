@@ -234,7 +234,7 @@ class CloudFrontPurger extends BaseCachePurger
                     'CallerReference' => time(),
                     'Paths' => [
                         'Items' => $paths,
-                        'Quantity' => 1,
+                        'Quantity' => count($paths),
                     ],
                 ]
             ]);
