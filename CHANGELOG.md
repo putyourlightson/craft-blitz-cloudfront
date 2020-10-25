@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.5 - 2020-10-25
+### Fixed
+- Fixed an issue in which `Quantity` did not match the number of `Items` ([#266](https://github.com/putyourlightson/craft-blitz/issues/266)).
+
 ## 2.0.4 - 2020-08-17
 ### Changed
 - If either the API key or secret is empty then it is assumed that we are running on EC2 and we have an IAM role assigned ([#3](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/3)).
