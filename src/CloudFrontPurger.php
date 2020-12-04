@@ -12,6 +12,7 @@ use Craft;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\web\View;
+use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
 use yii\base\Event;
@@ -124,6 +125,7 @@ class CloudFrontPurger extends BaseCachePurger
     {
         return [
             [['apiKey', 'apiSecret'], 'required'],
+            [['warmCacheDelay'], 'integer', 'min' => 0, 'max' => 30],
         ];
     }
 
@@ -204,7 +206,7 @@ class CloudFrontPurger extends BaseCachePurger
      *
      * @param array $paths
      *
-     * @return Result
+     * @return Result|bool
      */
     private function _sendRequest(array $paths)
     {
@@ -239,7 +241,11 @@ class CloudFrontPurger extends BaseCachePurger
                 ]
             ]);
         }
-        catch (AwsException $e) { }
+        catch (AwsException $exception) {
+            Blitz::$plugin->log($exception->getAwsErrorMessage(), [], 'error');
+
+            return false;
+        }
 
         return $result;
     }

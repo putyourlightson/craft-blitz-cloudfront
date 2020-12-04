@@ -37,3 +37,15 @@
     errors: purger.getErrors('distributionId'),
     required: true,
 }) }}
+
+{{ forms.textField({
+    type: 'number',
+    min: 0,
+    max: 30,
+    unit: "seconds"|t('blitz'),
+    label: "Warm Cache Delay"|t('blitz'),
+    instructions: "The number of seconds to wait after purging the cache before warming the cache should begin."|t('blitz'),
+    name: 'warmCacheDelay',
+    value: purger.warmCacheDelay,
+    errors: purger.getErrors('warmCacheDelay'),
+}) }}

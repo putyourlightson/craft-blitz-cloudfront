@@ -1,5 +1,10 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.6 - Unreleased
+### Added
+- Added the “Warm Cache Delay” setting to the purger settings page.
+- Added logging of exceptions on failed requests to CloudFront.
+
 ## 2.0.5 - 2020-10-25
 ### Fixed
 - Fixed an issue in which `Quantity` did not match the number of `Items` ([#266](https://github.com/putyourlightson/craft-blitz/issues/266)).
@@ -25,6 +30,7 @@
 - Fixed a bug in getting URLS to purge.
 
 ## 2.0.0 - 2020-01-22
+### Changed
 - Changed minimum required version of Blitz to 3.0.0.
 
 ## 1.0.0 - 2019-04-15
