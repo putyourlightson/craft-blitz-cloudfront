@@ -38,13 +38,16 @@
     required: true,
 }) }}
 
+{% set info %}
+    <span class="info">{{ "It can take up to 30 seconds for cached files to be purged across all edge nodes. Adding a delay between purging the cache and warming it will prevent stale versions of pages from being warmed. A value of `5` is recommended."|t('blitz') }}</span>
+{% endset %}
 {{ forms.textField({
     type: 'number',
     min: 0,
     max: 30,
     unit: "seconds"|t('blitz'),
     label: "Warm Cache Delay"|t('blitz'),
-    instructions: "The number of seconds to wait after purging the cache before warming the cache should begin."|t('blitz'),
+    instructions: "The number of seconds to wait after purging the cache before warming the cache should begin."|t('blitz') ~ info,
     name: 'warmCacheDelay',
     value: purger.warmCacheDelay,
     errors: purger.getErrors('warmCacheDelay'),

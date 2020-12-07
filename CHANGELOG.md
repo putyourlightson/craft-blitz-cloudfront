@@ -1,6 +1,6 @@
 # Release Notes for Blitz CloudFront Purger
 
-## 2.0.6 - Unreleased
+## 2.0.6 - 2020-12-07
 ### Added
 - Added the “Warm Cache Delay” setting to the purger settings page.
 - Added logging of exceptions on failed requests to CloudFront.

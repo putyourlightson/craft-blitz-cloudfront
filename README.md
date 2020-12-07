@@ -40,7 +40,7 @@ You can then select the purger and settings either in the control panel or in `c
    'apiKey' => 'p_prod_abcdefgh1234567890',
    'apiSecret' => 's_prod_abcdefgh1234567890',
    'distributionId' => '123456789',
-   'warmCacheDelay' => '3',
+   'warmCacheDelay' => '5',
 ],
 ```
 
