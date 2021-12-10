@@ -242,7 +242,10 @@ class CloudFrontPurger extends BaseCachePurger
             ]);
         }
         catch (AwsException $exception) {
-            Blitz::$plugin->log($exception->getAwsErrorMessage(), [], 'error');
+            $errorCode = $exception->getAwsErrorCode() ?: 'Not provided.';
+            $errorMessage = $exception->getAwsErrorMessage() ?: 'Not provided.';
+            $error = "AWS Client Error - Code: {$errorCode} - Message: {$errorMessage}";
+            Blitz::$plugin->log($error, [], 'error');
 
             return false;
         }
