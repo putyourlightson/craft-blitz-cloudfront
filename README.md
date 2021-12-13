@@ -1,3 +1,8 @@
+[![Stable Version](https://img.shields.io/packagist/v/putyourlightson/craft-blitz-cloudfront?label=stable)]((https://packagist.org/packages/putyourlightson/craft-blitz-cloudfront))
+[![Total Downloads](https://img.shields.io/packagist/dt/putyourlightson/craft-blitz-cloudfront)](https://packagist.org/packages/putyourlightson/craft-blitz-cloudfront)
+
+<p align="center"><img width="130" src="https://putyourlightson.com/assets/logos/blitz.svg"></p>
+
 # Blitz CloudFront Purger for Craft CMS
 
 The CloudFront Purger allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge cached pages.

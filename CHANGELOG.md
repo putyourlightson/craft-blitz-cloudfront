@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.7 - 2021-12-13
+### Fixed
+- Fixed an error that could be thrown if AWS returned a null error message ([#5](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/5)).
+
 ## 2.0.6 - 2020-12-07
 ### Added
 - Added the “Warm Cache Delay” setting to the purger settings page.
@@ -7,7 +11,7 @@
 
 ## 2.0.5 - 2020-10-25
 ### Fixed
-- Fixed an issue in which `Quantity` did not match the number of `Items` ([#266](https://github.com/putyourlightson/craft-blitz/issues/266)).
+- Fixed an issue in which `Quantity` did not match the number of `Items` ([#4](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/4)).
 
 ## 2.0.4 - 2020-08-17
 ### Changed
