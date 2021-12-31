@@ -145,7 +145,7 @@ class CloudFrontPurger extends BaseCachePurger
         $paths = [];
 
         foreach ($event->siteUris as $siteUri) {
-            $paths[] = '/' . $siteUri->uri;
+            $paths[] = '/' . str_replace('%2F', '/', urlencode($siteUri->uri));
         }
 
         $this->_sendRequest($paths);
