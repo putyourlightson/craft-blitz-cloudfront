@@ -141,12 +141,15 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
-        // Get paths from site URIs (https://github.com/putyourlightson/craft-blitz-cloudfront/issues/1)
-        $paths = [];
+        $reservedCharacters = [";", "/", "?", ":", "@", "=", "&"];
+        $encodedReservedCharacters = array_map(function($c) {
+            return urlencode($c);
+        }, $reservedCharacters);
 
-        foreach ($event->siteUris as $siteUri) {
-            $paths[] = '/' . $siteUri->uri;
-        }
+        // Get paths from site URIs (https://github.com/putyourlightson/craft-blitz-cloudfront/issues/1)
+        $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
+            return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
+        }, $event->siteUris);
 
         $this->_sendRequest($paths);
 
