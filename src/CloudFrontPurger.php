@@ -93,7 +93,7 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $behaviors = parent::behaviors();
         $behaviors['parser'] = [
@@ -121,7 +121,7 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['apiKey', 'apiSecret'], 'required'],
@@ -141,12 +141,14 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
-        $reservedCharacters = [";", "/", "?", ":", "@", "=", "&"];
-        $encodedReservedCharacters = array_map(function($c) {
-            return urlencode($c);
+        // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
+        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
+        $encodedReservedCharacters = array_map(function($character) {
+            return urlencode($character);
         }, $reservedCharacters);
 
-        // Get paths from site URIs (https://github.com/putyourlightson/craft-blitz-cloudfront/issues/1)
+        // Revert encoded reserved characters back to their original values.
+        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
         $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
             return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
         }, $event->siteUris);
@@ -213,8 +215,6 @@ class CloudFrontPurger extends BaseCachePurger
      */
     private function _sendRequest(array $paths)
     {
-        $result = '';
-
         $config = [
             'version' => $this->_version,
             'region' => self::REGION,
@@ -233,7 +233,7 @@ class CloudFrontPurger extends BaseCachePurger
         $client = new CloudFrontClient($config);
 
         try {
-            $result = $client->createInvalidation([
+            return $client->createInvalidation([
                 'DistributionId' => Craft::parseEnv($this->distributionId),
                 'InvalidationBatch' => [
                     'CallerReference' => time(),
@@ -252,7 +252,5 @@ class CloudFrontPurger extends BaseCachePurger
 
             return false;
         }
-
-        return $result;
     }
 }

@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.8 - 2022-01-02
+### Fixed
+- Fixed invalidation errors by URL encoding non-reserved special characters in paths ([#6](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/6)).
+
 ## 2.0.7 - 2021-12-13
 ### Fixed
 - Fixed an error that could be thrown if AWS returned a null error message ([#5](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/5)).
