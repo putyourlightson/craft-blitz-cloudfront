@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.9 - 2022-02-01
+### Fixed
+- Fixed invalidating paths that were missing trailing slashes when the `addTrailingSlashesToUrls` general config was `true`.
+
 ## 2.0.8 - 2022-01-02
 ### Fixed
 - Fixed invalidation errors by URL encoding non-reserved special characters in paths ([#6](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/6)).

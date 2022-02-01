@@ -153,6 +153,13 @@ class CloudFrontPurger extends BaseCachePurger
             return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
         }, $event->siteUris);
 
+        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
+        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
+            $paths = array_map(function($path) {
+                return substr($path, -1) == '/' ? $path : $path.'/';
+            }, $paths);
+        }
+
         $this->_sendRequest($paths);
 
         if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_CACHE)) {
