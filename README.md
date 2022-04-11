@@ -19,7 +19,7 @@ Source: [aws.amazon.com/cloudfront/pricing](https://aws.amazon.com/cloudfront/pr
 
 Install the purger using composer.
 
-```
+```shell
 composer require putyourlightson/craft-blitz-cloudfront
 ```
 

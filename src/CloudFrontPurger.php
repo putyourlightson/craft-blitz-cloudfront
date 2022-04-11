@@ -7,10 +7,10 @@ namespace putyourlightson\blitzcloudfront;
 
 use Aws\CloudFront\CloudFrontClient;
 use Aws\Exception\AwsException;
-use Aws\Result;
 use Craft;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\events\RegisterTemplateRootsEvent;
+use craft\helpers\App;
 use craft\web\View;
 use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
@@ -22,50 +22,33 @@ use yii\base\Event;
  */
 class CloudFrontPurger extends BaseCachePurger
 {
-    // Constants
-    // =========================================================================
-
     /**
      * The CloudFront service endpoint only allows connecting through a single region.
      * https://docs.aws.amazon.com/general/latest/gr/cf_region.html
      *
      * @var string
      */
-    const REGION = 'us-east-1';
-
-    // Properties
-    // =========================================================================
-
-    /**
-     * @deprecated Since only a single region is allowed.
-     * TODO: Remove in version 3.0.0
-     *
-     * @var string
-     */
-    public $region;
+    public const REGION = 'us-east-1';
 
     /**
      * @var string
      */
-    public $apiKey;
+    public string $apiKey;
 
     /**
      * @var string
      */
-    public $apiSecret;
+    public string $apiSecret;
 
     /**
      * @var string
      */
-    public $distributionId = '';
+    public string $distributionId = '';
 
     /**
      * @var string
      */
-    private $_version = 'latest';
-
-    // Static
-    // =========================================================================
+    private string $_version = 'latest';
 
     /**
      * @inheritdoc
@@ -75,13 +58,10 @@ class CloudFrontPurger extends BaseCachePurger
         return Craft::t('blitz', 'CloudFront Purger');
     }
 
-    // Public Methods
-    // =========================================================================
-
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
@@ -132,45 +112,7 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function purgeUris(array $siteUris)
-    {
-        $event = new RefreshCacheEvent(['siteUris' => $siteUris]);
-        $this->trigger(self::EVENT_BEFORE_PURGE_CACHE, $event);
-
-        if (!$event->isValid) {
-            return;
-        }
-
-        // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
-        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
-        $encodedReservedCharacters = array_map(function($character) {
-            return urlencode($character);
-        }, $reservedCharacters);
-
-        // Revert encoded reserved characters back to their original values.
-        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
-        $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
-            return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
-        }, $event->siteUris);
-
-        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
-        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-            $paths = array_map(function($path) {
-                return substr($path, -1) == '/' ? $path : $path.'/';
-            }, $paths);
-        }
-
-        $this->_sendRequest($paths);
-
-        if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_CACHE)) {
-            $this->trigger(self::EVENT_AFTER_PURGE_CACHE, $event);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function purgeAll()
+    public function purgeAll(callable $setProgressHandler = null, bool $queue = true): void
     {
         $event = new RefreshCacheEvent();
         $this->trigger(self::EVENT_BEFORE_PURGE_ALL_CACHE, $event);
@@ -183,6 +125,49 @@ class CloudFrontPurger extends BaseCachePurger
 
         if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_ALL_CACHE)) {
             $this->trigger(self::EVENT_AFTER_PURGE_ALL_CACHE, $event);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function purgeUrisWithProgress(array $siteUris, callable $setProgressHandler = null): void
+    {
+        $count = 0;
+        $total = count($siteUris);
+        $label = 'Purging {count} of {total} pages.';
+
+        if (is_callable($setProgressHandler)) {
+            $progressLabel = Craft::t('blitz', $label, ['count' => $count, 'total' => $total]);
+            call_user_func($setProgressHandler, $count, $total, $progressLabel);
+        }
+
+        // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
+        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
+        $encodedReservedCharacters = array_map(function($character) {
+            return urlencode($character);
+        }, $reservedCharacters);
+
+        // Revert encoded reserved characters back to their original values.
+        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
+        $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
+            return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
+        }, $siteUris);
+
+        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
+        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
+            $paths = array_map(function($path) {
+                return str_ends_with($path, '/') ? $path : $path.'/';
+            }, $paths);
+        }
+
+        $this->_sendRequest($paths);
+
+        $count = $total;
+
+        if (is_callable($setProgressHandler)) {
+            $progressLabel = Craft::t('blitz', $label, ['count' => $count, 'total' => $total]);
+            call_user_func($setProgressHandler, $count, $total, $progressLabel);
         }
     }
 
@@ -203,45 +188,38 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function getSettingsHtml()
+    public function getSettingsHtml(): string
     {
         return Craft::$app->getView()->renderTemplate('blitz-cloudfront/settings', [
             'purger' => $this,
         ]);
     }
 
-    // Private Methods
-    // =========================================================================
-
     /**
      * Sends a request to the API.
-     *
-     * @param array $paths
-     *
-     * @return Result|bool
      */
-    private function _sendRequest(array $paths)
+    private function _sendRequest(array $paths): bool
     {
         $config = [
             'version' => $this->_version,
             'region' => self::REGION,
         ];
 
-        $key = Craft::parseEnv($this->apiKey);
-        $secret = Craft::parseEnv($this->apiSecret);
+        $key = App::parseEnv($this->apiKey);
+        $secret = App::parseEnv($this->apiSecret);
 
         if ($key && $secret) {
             $config['credentials'] = [
-                'key' => Craft::parseEnv($this->apiKey),
-                'secret' => Craft::parseEnv($this->apiSecret),
+                'key' => App::parseEnv($this->apiKey),
+                'secret' => App::parseEnv($this->apiSecret),
             ];
         }
 
         $client = new CloudFrontClient($config);
 
         try {
-            return $client->createInvalidation([
-                'DistributionId' => Craft::parseEnv($this->distributionId),
+            $client->createInvalidation([
+                'DistributionId' => App::parseEnv($this->distributionId),
                 'InvalidationBatch' => [
                     'CallerReference' => time(),
                     'Paths' => [
@@ -259,5 +237,7 @@ class CloudFrontPurger extends BaseCachePurger
 
             return false;
         }
+
+        return true;
     }
 }
