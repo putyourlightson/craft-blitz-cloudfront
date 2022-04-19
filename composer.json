@@ -14,6 +14,7 @@
         "purger"
     ],
     "require": {
+        "php": "^8.0.2",
         "craftcms/cms": "^4.0.0-beta.1",
         "putyourlightson/craft-blitz": "^4.0.0-beta.2",
         "aws/aws-sdk-php": "^3.0.0"
@@ -32,6 +33,6 @@
         "name": "Blitz CloudFront Purger",
         "developer": "PutYourLightsOn",
         "developerUrl": "https://putyourlightson.com/",
-        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v2/CHANGELOG.md"
+        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v3/CHANGELOG.md"
     }
 }

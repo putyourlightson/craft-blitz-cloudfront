@@ -1,11 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
-## 3.0.0-beta.1 - Unreleased
+## 3.0.0-beta.1 - 2022-04-19
 ### Added
 - Added compatibility with Craft 4.
 
 ### Changed
-- Changed minimum required version of Blitz to 4.0.0.
+- Changed minimum required version of Blitz to 4.0.0-beta.2.
 
 ## 2.0.9 - 2022-02-01
 ### Fixed

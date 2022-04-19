@@ -7,6 +7,7 @@ namespace putyourlightson\blitzcloudfront;
 
 use Aws\CloudFront\CloudFrontClient;
 use Aws\Exception\AwsException;
+use Aws\Exception\CredentialsException;
 use Craft;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\events\RegisterTemplateRootsEvent;
@@ -33,12 +34,12 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @var string
      */
-    public string $apiKey;
+    public string $apiKey = '';
 
     /**
      * @var string
      */
-    public string $apiSecret;
+    public string $apiSecret = '';
 
     /**
      * @var string
@@ -95,6 +96,7 @@ class CloudFrontPurger extends BaseCachePurger
         return [
             'apiKey' => Craft::t('blitz', 'API Key'),
             'apiSecret' => Craft::t('blitz', 'API Secret'),
+            'distributionId' => Craft::t('blitz', 'Distribution ID'),
         ];
     }
 
@@ -104,8 +106,7 @@ class CloudFrontPurger extends BaseCachePurger
     public function rules(): array
     {
         return [
-            [['apiKey', 'apiSecret'], 'required'],
-            [['warmCacheDelay'], 'integer', 'min' => 0, 'max' => 30],
+            [['apiKey', 'apiSecret', 'distributionId'], 'required'],
         ];
     }
 
@@ -135,7 +136,7 @@ class CloudFrontPurger extends BaseCachePurger
     {
         $count = 0;
         $total = count($siteUris);
-        $label = 'Purging {count} of {total} pages.';
+        $label = 'Purging {total} pages.';
 
         if (is_callable($setProgressHandler)) {
             $progressLabel = Craft::t('blitz', $label, ['count' => $count, 'total' => $total]);
@@ -232,6 +233,14 @@ class CloudFrontPurger extends BaseCachePurger
         catch (AwsException $exception) {
             $errorCode = $exception->getAwsErrorCode() ?: 'Not provided.';
             $errorMessage = $exception->getAwsErrorMessage() ?: 'Not provided.';
+            $error = 'AWS Client Error - Code: '.$errorCode.' - Message: '.$errorMessage;
+            Blitz::$plugin->log($error, [], 'error');
+
+            return false;
+        }
+        catch (CredentialsException $exception) {
+            $errorCode = $exception->getCode();
+            $errorMessage = $exception->getMessage();
             $error = 'AWS Client Error - Code: '.$errorCode.' - Message: '.$errorMessage;
             Blitz::$plugin->log($error, [], 'error');
 
