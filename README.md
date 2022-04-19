@@ -28,7 +28,6 @@ Then add the class to the `cachePurgerTypes` config setting in `config/blitz.php
 ```php
 // The purger type classes to add to the plugin’s default purger types.
 'cachePurgerTypes' => [
-    'putyourlightson\blitz\drivers\purgers\CloudflarePurger',
     'putyourlightson\blitzcloudfront\CloudFrontPurger',
 ],
 ```

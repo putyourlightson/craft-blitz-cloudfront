@@ -19,7 +19,7 @@ use putyourlightson\blitz\events\RefreshCacheEvent;
 use yii\base\Event;
 
 /**
- * @property mixed $settingsHtml
+ * @property-read null|string $settingsHtml
  */
 class CloudFrontPurger extends BaseCachePurger
 {
@@ -66,7 +66,7 @@ class CloudFrontPurger extends BaseCachePurger
     {
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
-                $event->roots['blitz-cloudfront'] = __DIR__.'/templates/';
+                $event->roots['blitz-cloudfront'] = __DIR__ . '/templates/';
             }
         );
     }
@@ -158,7 +158,7 @@ class CloudFrontPurger extends BaseCachePurger
         // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
         if (Craft::$app->config->general->addTrailingSlashesToUrls) {
             $paths = array_map(function($path) {
-                return str_ends_with($path, '/') ? $path : $path.'/';
+                return str_ends_with($path, '/') ? $path : $path . '/';
             }, $paths);
         }
 
@@ -189,7 +189,7 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
-    public function getSettingsHtml(): string
+    public function getSettingsHtml(): ?string
     {
         return Craft::$app->getView()->renderTemplate('blitz-cloudfront/settings', [
             'purger' => $this,
@@ -227,13 +227,13 @@ class CloudFrontPurger extends BaseCachePurger
                         'Items' => $paths,
                         'Quantity' => count($paths),
                     ],
-                ]
+                ],
             ]);
         }
         catch (AwsException $exception) {
             $errorCode = $exception->getAwsErrorCode() ?: 'Not provided.';
             $errorMessage = $exception->getAwsErrorMessage() ?: 'Not provided.';
-            $error = 'AWS Client Error - Code: '.$errorCode.' - Message: '.$errorMessage;
+            $error = 'AWS Client Error - Code: ' . $errorCode . ' - Message: ' . $errorMessage;
             Blitz::$plugin->log($error, [], 'error');
 
             return false;
@@ -241,7 +241,7 @@ class CloudFrontPurger extends BaseCachePurger
         catch (CredentialsException $exception) {
             $errorCode = $exception->getCode();
             $errorMessage = $exception->getMessage();
-            $error = 'AWS Client Error - Code: '.$errorCode.' - Message: '.$errorMessage;
+            $error = 'AWS Client Error - Code: ' . $errorCode . ' - Message: ' . $errorMessage;
             Blitz::$plugin->log($error, [], 'error');
 
             return false;
