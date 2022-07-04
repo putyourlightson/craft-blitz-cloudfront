@@ -13,6 +13,7 @@ use craft\behaviors\EnvAttributeParserBehavior;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\helpers\App;
 use craft\web\View;
+use Psr\Log\LogLevel;
 use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
@@ -234,7 +235,7 @@ class CloudFrontPurger extends BaseCachePurger
             $errorCode = $exception->getAwsErrorCode() ?: 'Not provided.';
             $errorMessage = $exception->getAwsErrorMessage() ?: 'Not provided.';
             $error = 'AWS Client Error - Code: ' . $errorCode . ' - Message: ' . $errorMessage;
-            Blitz::$plugin->log($error, [], 'error');
+            Blitz::$plugin->log($error, [], LogLevel::ERROR);
 
             return false;
         }
@@ -242,7 +243,7 @@ class CloudFrontPurger extends BaseCachePurger
             $errorCode = $exception->getCode();
             $errorMessage = $exception->getMessage();
             $error = 'AWS Client Error - Code: ' . $errorCode . ' - Message: ' . $errorMessage;
-            Blitz::$plugin->log($error, [], 'error');
+            Blitz::$plugin->log($error, [], LogLevel::ERROR);
 
             return false;
         }
