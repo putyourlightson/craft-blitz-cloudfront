@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 3.0.1 - 2022-11-01
+### Fixed
+- Fixed a bug in which logging exceptions was causing an error due to a non-existent log level ([#7](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/7)).
+
 ## 3.0.0 - 2022-07-04
 ### Added
 - Added compatibility with Craft 4.
