@@ -135,6 +135,10 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function purgeUrisWithProgress(array $siteUris, callable $setProgressHandler = null): void
     {
+        if (empty($siteUris)) {
+            return;
+        }
+
         $count = 0;
         $total = count($siteUris);
         $label = 'Purging {total} pages.';
@@ -178,7 +182,7 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function test(): bool
     {
-        $response = $this->_sendRequest([]);
+        $response = $this->_sendRequest(['/test']);
 
         if (!$response) {
             return false;
