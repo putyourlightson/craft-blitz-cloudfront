@@ -1,5 +1,10 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 3.0.3 - 2022-11-09
+### Fixed
+- Fixed a bug in which the CloudFront Purger could throw errors when purging site URIs.
+ ([#9](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/9)).
+
 ## 3.0.2 - 2022-11-02
 ### Fixed
 - Fixed a bug in which test invalidations could cause errors ([#8](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/8)).

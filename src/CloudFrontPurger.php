@@ -16,6 +16,7 @@ use craft\web\View;
 use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
+use putyourlightson\blitz\helpers\SiteUriHelper;
 use yii\base\Event;
 use yii\log\Logger;
 
@@ -139,8 +140,10 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
+        $urls = SiteUriHelper::getUrlsFromSiteUris($siteUris);
+
         $count = 0;
-        $total = count($siteUris);
+        $total = count($urls);
         $label = 'Purging {total} pages.';
 
         if (is_callable($setProgressHandler)) {
@@ -148,24 +151,7 @@ class CloudFrontPurger extends BaseCachePurger
             call_user_func($setProgressHandler, $count, $total, $progressLabel);
         }
 
-        // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
-        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
-        $encodedReservedCharacters = array_map(function($character) {
-            return urlencode($character);
-        }, $reservedCharacters);
-
-        // Revert encoded reserved characters back to their original values.
-        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
-        $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
-            return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
-        }, $siteUris);
-
-        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
-        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-            $paths = array_map(function($path) {
-                return str_ends_with($path, '/') ? $path : $path . '/';
-            }, $paths);
-        }
+        $paths = array_map(fn($url) => $this->_getPathFromUrl($url), $urls);
 
         $this->_sendRequest($paths);
 
@@ -199,6 +185,30 @@ class CloudFrontPurger extends BaseCachePurger
         return Craft::$app->getView()->renderTemplate('blitz-cloudfront/settings', [
             'purger' => $this,
         ]);
+    }
+
+    /**
+     * Returns a path from a URL.
+     */
+    private function _getPathFromUrl(string $url): string
+    {
+        $queryString = parse_url($url, PHP_URL_QUERY);
+        $path = parse_url($url, PHP_URL_PATH);
+        $path .= $queryString ? '?' . $queryString : '';
+
+        // Revert encoded reserved characters back to their original values.
+        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
+        // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
+        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
+        $encodedReservedCharacters = ['%3B', '%2F', '%3F', '%3A', '%40', '%3D', '%26'];
+        $path = str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($path));
+
+        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
+        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
+            $path = rtrim($path, '/') . '/';
+        }
+
+        return $path;
     }
 
     /**
