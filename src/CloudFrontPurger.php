@@ -199,8 +199,8 @@ class CloudFrontPurger extends BaseCachePurger
         // Revert encoded reserved characters back to their original values.
         // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
         // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects
-        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&'];
-        $encodedReservedCharacters = ['%3B', '%2F', '%3F', '%3A', '%40', '%3D', '%26'];
+        $reservedCharacters = [';', '/', '?', ':', '@', '=', '&', '*'];
+        $encodedReservedCharacters = ['%3B', '%2F', '%3F', '%3A', '%40', '%3D', '%26', '%2A'];
         $path = str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($path));
 
         // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
