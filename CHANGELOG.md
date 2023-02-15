@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 3.0.4 - 2023-02-15
+### Fixed
+- Fixed invalidation errors when URLs contained the `*` character in paths ([#10](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/10)).
+
 ## 3.0.3 - 2022-11-09
 ### Fixed
 - Fixed a bug in which the CloudFront Purger could throw errors when purging site URIs.
