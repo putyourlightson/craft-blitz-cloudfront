@@ -67,7 +67,7 @@ class CloudFrontPurger extends BaseCachePurger
     public function init(): void
     {
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
-            function(RegisterTemplateRootsEvent $event) {
+            function (RegisterTemplateRootsEvent $event) {
                 $event->roots['blitz-cloudfront'] = __DIR__ . '/templates/';
             }
         );
@@ -151,7 +151,7 @@ class CloudFrontPurger extends BaseCachePurger
             call_user_func($setProgressHandler, $count, $total, $progressLabel);
         }
 
-        $paths = array_map(fn($url) => $this->_getPathFromUrl($url), $urls);
+        $paths = array_map(fn ($url) => $this->_getPathFromUrl($url), $urls);
 
         $this->_sendRequest($paths);
 
