@@ -1,5 +1,10 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 2.0.10 - 2023-09-25
+### Fixed
+- Fixed a bug in which the CloudFront Purger could throw errors when purging site URIs.
+ ([#9](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/9), [#11](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/11)).
+
 ## 2.0.9 - 2022-02-01
 ### Fixed
 - Fixed invalidating paths that were missing trailing slashes when the `addTrailingSlashesToUrls` general config was `true`.

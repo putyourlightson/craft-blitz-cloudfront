@@ -1,7 +1,7 @@
 {
     "name": "putyourlightson/craft-blitz-cloudfront",
     "description": "CloudFront cache purger for the Blitz plugin for Craft CMS.",
-    "version": "2.0.9",
+    "version": "2.0.10",
     "type": "blitz-purger",
     "license": "proprietary",
     "keywords": [
