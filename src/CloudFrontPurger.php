@@ -150,7 +150,7 @@ class CloudFrontPurger extends BaseCachePurger
         // Revert encoded reserved characters back to their original values.
         // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/6
         $paths = array_map(function($siteUri) use ($encodedReservedCharacters, $reservedCharacters) {
-            return '/' . str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($siteUri->uri));
+            return str_replace($encodedReservedCharacters, $reservedCharacters, urlencode(parse_url($siteUri->getUrl(), PHP_URL_PATH)));
         }, $event->siteUris);
 
         // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
