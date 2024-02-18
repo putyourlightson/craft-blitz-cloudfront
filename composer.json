@@ -1,38 +1,36 @@
 {
-    "name": "putyourlightson/craft-blitz-cloudfront",
-    "description": "CloudFront cache purger for the Blitz plugin.",
-    "version": "3.0.4",
-    "type": "blitz-purger",
-    "license": "proprietary",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "plugin",
-        "cache",
-        "blitz",
-        "purger"
-    ],
-    "require": {
-        "php": "^8.0.2",
-        "craftcms/cms": "^4.0",
-        "putyourlightson/craft-blitz": "^4.0",
-        "aws/aws-sdk-php": "^3.0"
-    },
-    "autoload": {
-        "psr-4": {
-          "putyourlightson\\blitzcloudfront\\": "src/"
-        }
-    },
-    "support": {
-        "docs": "https://github.com/putyourlightson/craft-blitz-cloudfront",
-        "source": "https://github.com/putyourlightson/craft-blitz-cloudfront",
-        "issues": "https://github.com/putyourlightson/craft-blitz-cloudfront/issues"
-    },
-    "extra": {
-        "name": "Blitz CloudFront Purger",
-        "developer": "PutYourLightsOn",
-        "developerUrl": "https://putyourlightson.com/",
-        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v3/CHANGELOG.md"
+  "name": "putyourlightson/craft-blitz-cloudfront",
+  "description": "CloudFront cache purger for the Blitz plugin.",
+  "version": "4.0.0-beta.1",
+  "type": "blitz-purger",
+  "license": "proprietary",
+  "keywords": [
+    "craftcms",
+    "plugin",
+    "cache",
+    "blitz",
+    "purger"
+  ],
+  "require": {
+    "php": "^8.2",
+    "craftcms/cms": "^5.0.0-beta.1",
+    "putyourlightson/craft-blitz": "^5.0.0-beta.1",
+    "aws/aws-sdk-php": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "putyourlightson\\blitzcloudfront\\": "src/"
     }
+  },
+  "support": {
+    "docs": "https://github.com/putyourlightson/craft-blitz-cloudfront",
+    "source": "https://github.com/putyourlightson/craft-blitz-cloudfront",
+    "issues": "https://github.com/putyourlightson/craft-blitz-cloudfront/issues"
+  },
+  "extra": {
+    "name": "Blitz CloudFront Purger",
+    "developer": "PutYourLightsOn",
+    "developerUrl": "https://putyourlightson.com/",
+    "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v3/CHANGELOG.md"
+  }
 }
