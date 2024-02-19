@@ -6,9 +6,9 @@
   "license": "proprietary",
   "keywords": [
     "craftcms",
-    "plugin",
-    "cache",
     "blitz",
+    "cache",
+    "cloudfront",
     "purger"
   ],
   "require": {
