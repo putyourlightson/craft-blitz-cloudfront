@@ -17,6 +17,8 @@
     "putyourlightson/craft-blitz": "^5.0.0-beta.1",
     "aws/aws-sdk-php": "^3.0"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "putyourlightson\\blitzcloudfront\\": "src/"
