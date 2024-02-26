@@ -193,7 +193,7 @@ class CloudFrontPurger extends BaseCachePurger
     }
 
     /**
-     * Returns condensed URLs by adding a wildcard character where appropriate.
+     * Returns condensed URLs by eagerly adding a wildcard character.
      * This overly simplified method returns a single URL with a wildcard character after the longest common prefix.
      *
      * @param string[] $urls
@@ -208,13 +208,13 @@ class CloudFrontPurger extends BaseCachePurger
         // Get the longest common prefix between the two most dissimilar strings.
         sort($urls);
 
-        return [$this->getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
+        return [$this->_getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
     }
 
     /**
      * Returns the longest common prefix between two strings.
      */
-    private function getLongestCommonPrefix($str1, $str2): string
+    private function _getLongestCommonPrefix($str1, $str2): string
     {
         $length = min(strlen($str1), strlen($str2));
         for ($i = 0; $i < $length; $i++) {
