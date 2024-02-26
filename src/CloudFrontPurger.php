@@ -194,12 +194,12 @@ class CloudFrontPurger extends BaseCachePurger
 
     /**
      * Returns condensed URLs by adding a wildcard character where appropriate.
-     * This overly simplified method returns a single URL with a wildcard character after the longest common prefix between all URLs.
+     * This overly simplified method returns a single URL with a wildcard character after the longest common prefix.
      *
      * @param string[] $urls
      * @return string[]
      */
-    private function condenseUrls(array $urls): array
+    public function condenseUrls(array $urls): array
     {
         if (count($urls) < 2) {
             return $urls;
