@@ -67,7 +67,7 @@ class CloudFrontPurger extends BaseCachePurger
     public function init(): void
     {
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
-            function (RegisterTemplateRootsEvent $event) {
+            function(RegisterTemplateRootsEvent $event) {
                 $event->roots['blitz-cloudfront'] = __DIR__ . '/templates/';
             }
         );
@@ -142,6 +142,11 @@ class CloudFrontPurger extends BaseCachePurger
 
         $urls = SiteUriHelper::getUrlsFromSiteUris($siteUris);
 
+        // TODO: add a config setting.
+        if ($condenseUrls ?? true) {
+            $urls = $this->condenseUrls($urls);
+        }
+
         $count = 0;
         $total = count($urls);
         $label = 'Purging {total} pages.';
@@ -151,7 +156,7 @@ class CloudFrontPurger extends BaseCachePurger
             call_user_func($setProgressHandler, $count, $total, $progressLabel);
         }
 
-        $paths = array_map(fn ($url) => $this->_getPathFromUrl($url), $urls);
+        $paths = array_map(fn($url) => $this->_getPathFromUrl($url), $urls);
 
         $this->_sendRequest($paths);
 
@@ -185,6 +190,40 @@ class CloudFrontPurger extends BaseCachePurger
         return Craft::$app->getView()->renderTemplate('blitz-cloudfront/settings', [
             'purger' => $this,
         ]);
+    }
+
+    /**
+     * Returns condensed URLs by adding a wildcard character where appropriate.
+     * This overly simplified method returns a single URL with a wildcard character after the longest common prefix between all URLs.
+     *
+     * @param string[] $urls
+     * @return string[]
+     */
+    private function condenseUrls(array $urls): array
+    {
+        if (count($urls) < 2) {
+            return $urls;
+        }
+
+        // Get the longest common prefix between the two most dissimilar strings.
+        sort($urls);
+
+        return [$this->getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
+    }
+
+    /**
+     * Returns the longest common prefix between two strings.
+     */
+    private function getLongestCommonPrefix($str1, $str2): string
+    {
+        $length = min(strlen($str1), strlen($str2));
+        for ($i = 0; $i < $length; $i++) {
+            if ($str1[$i] !== $str2[$i]) {
+                return substr($str1, 0, $i);
+            }
+        }
+
+        return substr($str1, 0, $length);
     }
 
     /**

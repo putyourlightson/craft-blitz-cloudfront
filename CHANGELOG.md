@@ -1,5 +1,9 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 3.1.0 - Unreleased
+### Added
+- Added a `condenseUrls` config setting that condenses multiple URLs into a single invalidation request with a wildcard character after the longest common prefix between all URLs.
+
 ## 3.0.4 - 2023-02-15
 ### Fixed
 - Fixed invalidation errors when URLs contained the `*` character in paths ([#10](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/10)).
