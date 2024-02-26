@@ -9,11 +9,9 @@ The CloudFront Purger allows the [Blitz](https://putyourlightson.com/plugins/bli
 
 **Note that Amazon CloudFront charges for invalidation requests. Since invalidation requests can quickly add up when purging individual URLs, you should be aware of the potential costs. PutYourLightsOn takes no responsibility whatsoever for expenses incurred.**
 
-> No additional charge for the first 1,000 paths requested for invalidation each month. Thereafter, $0.005 per path requested for invalidation. 
+> The first 1,000 invalidation paths that you submit per month are free; you pay for each invalidation path over 1,000 in a month. An invalidation path can be for a single file (such as `/images/logo.jpg`) or for multiple files (such as `/images/*`). A path that includes the `*` wildcard counts as one path even if it causes CloudFront to invalidate thousands of files.
 
-> A path listed in your invalidation request represents the URL (or multiple URLs if the path contains a wildcard character) of the object(s) you want to invalidate from CloudFront cache.
-
-Source: [aws.amazon.com/cloudfront/pricing](https://aws.amazon.com/cloudfront/pricing/)
+Source: [docs.aws.amazon.com](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#PayingForInvalidation)
 
 ## Usage
 
