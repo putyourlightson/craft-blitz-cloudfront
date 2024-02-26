@@ -49,6 +49,11 @@ class CloudFrontPurger extends BaseCachePurger
     public string $distributionId = '';
 
     /**
+     * @var bool
+     */
+    public bool $condenseUrls = false;
+
+    /**
      * @var string
      */
     private string $_version = 'latest';
@@ -142,9 +147,8 @@ class CloudFrontPurger extends BaseCachePurger
 
         $urls = SiteUriHelper::getUrlsFromSiteUris($siteUris);
 
-        // TODO: add a config setting.
-        if ($condenseUrls ?? true) {
-            $urls = $this->condenseUrls($urls);
+        if ($this->condenseUrls) {
+            $urls = $this->getCondensedUrls($urls);
         }
 
         $count = 0;
@@ -199,7 +203,7 @@ class CloudFrontPurger extends BaseCachePurger
      * @param string[] $urls
      * @return string[]
      */
-    public function condenseUrls(array $urls): array
+    public function getCondensedUrls(array $urls): array
     {
         if (count($urls) < 2) {
             return $urls;

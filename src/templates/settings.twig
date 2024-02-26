@@ -37,3 +37,17 @@
     errors: purger.getErrors('distributionId'),
     required: true,
 }) }}
+
+{% set info %}
+    <span class="info">
+        {{- "Enabling this can help reduce the number of invalidation paths sent to the CloudFront API, potentially saving on invalidation request charges. This works by condensing multiple invalidation URLs into a single URL with a wildcard character after the longest common prefix. A path that includes the `*` wildcard counts as one path even if it causes CloudFront to invalidate thousands of files."|t('blitz') -}}
+    </span>
+{% endset %}
+{{ forms.lightswitchField({
+    label: "Condense URLs"|t('blitz'),
+    id: 'condenseUrls',
+    name: 'condenseUrls',
+    instructions: "Whether to condense multiple invalidation URLs into a single URL with a wildcard."|t('blitz') ~ info,
+    on: purger.condenseUrls,
+    errors: purger.getErrors('condenseUrls'),
+}) }}

@@ -19,6 +19,6 @@ test('URLs are condensed into a single URL with a wildcard character after the l
         'https://example.com/foo/bar/baz',
     ];
 
-    expect($purger->condenseUrls($urls))
+    expect($purger->getCondensedUrls($urls))
         ->toBe(['https://example.com/foo*']);
 });

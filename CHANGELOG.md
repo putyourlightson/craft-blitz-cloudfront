@@ -2,7 +2,7 @@
 
 ## 3.1.0 - Unreleased
 ### Added
-- Added a `condenseUrls` config setting that condenses multiple URLs into a single invalidation request with a wildcard character after the longest common prefix between all URLs.
+- Added a `condenseUrls` setting that can help reduce the number of invalidation paths sent to the CloudFront API, potentially saving on invalidation request charges.
 
 ## 3.0.4 - 2023-02-15
 ### Fixed
