@@ -56,7 +56,7 @@
     "handle": "blitz-cloudfront",
     "developer": "PutYourLightsOn",
     "developerUrl": "https://putyourlightson.com/",
-    "documentationUrl": "https://putyourlightson.com/plugins/blitz",
+    "documentationUrl": "https://github.com/putyourlightson/craft-blitz-cloudfront",
     "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v4/CHANGELOG.md",
     "class": "putyourlightson\\blitzcloudfront\\Plugin"
   }
