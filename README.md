@@ -15,7 +15,7 @@ Source: [docs.aws.amazon.com](https://docs.aws.amazon.com/AmazonCloudFront/lates
 
 ## Documentation
 
-Read the documentation at [putyourlightson.com/plugins/blitz](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers).
+Read the documentation at [putyourlightson.com/plugins/blitz »](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers)
 
 ## License
 
