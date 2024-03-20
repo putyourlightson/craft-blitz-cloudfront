@@ -3,7 +3,7 @@
 
 <p align="center"><img width="130" src="https://putyourlightson.com/assets/logos/blitz.svg"></p>
 
-# Blitz CloudFront Purger for Craft CMS
+# Blitz CloudFront Purger Plugin for Craft CMS
 
 The CloudFront Purger allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge cached pages.
 
@@ -13,21 +13,24 @@ The CloudFront Purger allows the [Blitz](https://putyourlightson.com/plugins/bli
 
 Source: [docs.aws.amazon.com](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#PayingForInvalidation)
 
-## Usage
+## Documentation
 
-Install the purger using composer.
+Read the documentation at [putyourlightson.com/plugins/blitz](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers).
+
+## License
+
+This plugin is licensed for free under the MIT License.
+
+## Requirements
+
+This plugin requires [Craft CMS](https://craftcms.com/) 3.0.0 or later, or 4.0.0 or later.
+
+## Installation
+
+To install the plugin, search for “Blitz CloudFront Purger” in the Craft Plugin Store, or install manually using composer.
 
 ```shell
 composer require putyourlightson/craft-blitz-cloudfront
-```
-
-Then add the class to the `cachePurgerTypes` config setting in `config/blitz.php`.
-
-```php
-// The purger type classes to add to the plugin’s default purger types.
-'cachePurgerTypes' => [
-    'putyourlightson\blitzcloudfront\CloudFrontPurger',
-],
 ```
 
 You can then select the purger and settings either in the control panel or in `config/blitz.php`.
@@ -46,8 +49,6 @@ You can then select the purger and settings either in the control panel or in `c
 ],
 ```
 
-## Documentation
-
-Read the documentation at [putyourlightson.com/plugins/blitz](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers).
+---
 
 Created by [PutYourLightsOn](https://putyourlightson.com/).
