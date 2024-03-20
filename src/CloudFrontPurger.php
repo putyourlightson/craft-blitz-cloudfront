@@ -36,6 +36,11 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @var string
      */
+    public const VERSION = 'latest';
+
+    /**
+     * @var string
+     */
     public string $apiKey = '';
 
     /**
@@ -52,11 +57,6 @@ class CloudFrontPurger extends BaseCachePurger
      * @var bool
      */
     public bool $condenseUrls = false;
-
-    /**
-     * @var string
-     */
-    private string $_version = 'latest';
 
     /**
      * @inheritdoc
@@ -129,7 +129,7 @@ class CloudFrontPurger extends BaseCachePurger
             return;
         }
 
-        $this->_sendRequest(['/*']);
+        $this->sendRequest(['/*']);
 
         if ($this->hasEventHandlers(self::EVENT_AFTER_PURGE_ALL_CACHE)) {
             $this->trigger(self::EVENT_AFTER_PURGE_ALL_CACHE, $event);
@@ -160,9 +160,9 @@ class CloudFrontPurger extends BaseCachePurger
             call_user_func($setProgressHandler, $count, $total, $progressLabel);
         }
 
-        $paths = array_map(fn($url) => $this->_getPathFromUrl($url), $urls);
+        $paths = array_map(fn($url) => $this->getPathFromUrl($url), $urls);
 
-        $this->_sendRequest($paths);
+        $this->sendRequest($paths);
 
         $count = $total;
 
@@ -177,7 +177,7 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function test(): bool
     {
-        $response = $this->_sendRequest(['/test']);
+        $response = $this->sendRequest(['/test']);
 
         if (!$response) {
             return false;
@@ -212,13 +212,13 @@ class CloudFrontPurger extends BaseCachePurger
         // Get the longest common prefix between the two most dissimilar strings.
         sort($urls);
 
-        return [$this->_getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
+        return [$this->getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
     }
 
     /**
      * Returns the longest common prefix between two strings.
      */
-    private function _getLongestCommonPrefix($str1, $str2): string
+    private function getLongestCommonPrefix($str1, $str2): string
     {
         $length = min(strlen($str1), strlen($str2));
         for ($i = 0; $i < $length; $i++) {
@@ -233,7 +233,7 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * Returns a path from a URL.
      */
-    private function _getPathFromUrl(string $url): string
+    private function getPathFromUrl(string $url): string
     {
         $queryString = parse_url($url, PHP_URL_QUERY);
         $path = parse_url($url, PHP_URL_PATH);
@@ -257,10 +257,10 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * Sends a request to the API.
      */
-    private function _sendRequest(array $paths): bool
+    private function sendRequest(array $paths): bool
     {
         $config = [
-            'version' => $this->_version,
+            'version' => self::VERSION,
             'region' => self::REGION,
         ];
 
