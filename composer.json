@@ -1,14 +1,17 @@
 {
   "name": "putyourlightson/craft-blitz-cloudfront",
   "description": "CloudFront cache purger for the Blitz plugin.",
-  "version": "4.0.0-beta.1",
-  "type": "blitz-purger",
+  "version": "5.0.0-beta.1",
+  "type": "craft-plugin",
+  "homepage": "https://putyourlightson.com/plugins/blitz",
   "license": "proprietary",
   "keywords": [
     "craftcms",
-    "blitz",
-    "cache",
+    "amazon",
+    "aws",
     "cloudfront",
+    "cache",
+    "blitz",
     "purger"
   ],
   "require": {
@@ -19,19 +22,20 @@
   },
   "require-dev": {
     "craftcms/ecs": "dev-main",
-    "craftcms/phpstan": "dev-main"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "putyourlightson\\blitzcloudfront\\": "src/"
-    }
+    "craftcms/phpstan": "dev-main",
+    "markhuot/craft-pest-core": "^2.0.0-rc2",
+    "mockery/mockery": "^1.0",
+    "putyourlightson/craft-generate-test-spec": "v2.x-dev"
   },
   "scripts": {
     "phpstan": "phpstan --ansi --memory-limit=1G",
     "check-cs": "ecs check --ansi",
     "fix-cs": "ecs check --fix --ansi"
+  },
+  "autoload": {
+    "psr-4": {
+      "putyourlightson\\blitzcloudfront\\": "src/"
+    }
   },
   "config": {
     "allow-plugins": {
@@ -49,8 +53,11 @@
   },
   "extra": {
     "name": "Blitz CloudFront Purger",
+    "handle": "blitz-cloudfront",
     "developer": "PutYourLightsOn",
     "developerUrl": "https://putyourlightson.com/",
-    "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v3/CHANGELOG.md"
+    "documentationUrl": "https://github.com/putyourlightson/craft-blitz-cloudfront",
+    "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v5/CHANGELOG.md",
+    "class": "putyourlightson\\blitzcloudfront\\Plugin"
   }
 }

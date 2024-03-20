@@ -1,11 +1,10 @@
-{% import "_includes/forms" as forms %}
-
+{% import '_includes/forms' as forms %}
 
 {{ forms.autosuggestField({
-    label: "API Key"|t('blitz'),
+    label: 'API Key'|t('blitz-cloudfront'),
     id: 'apiKey',
     name: 'apiKey',
-    instructions: "An API key for your AWS account."|t('blitz'),
+    instructions: 'An API key for your AWS account.'|t('blitz-cloudfront'),
     suggestEnvVars: true,
     suggestions: craft.cp.getEnvSuggestions(),
     value: purger.apiKey,
@@ -15,10 +14,10 @@
 }) }}
 
 {{ forms.autosuggestField({
-    label: "API Secret"|t('blitz'),
+    label: 'API Secret'|t('blitz-cloudfront'),
     id: 'apiSecret',
     name: 'apiSecret',
-    instructions: "An API secret for your AWS account."|t('blitz'),
+    instructions: 'An API secret for your AWS account.'|t('blitz-cloudfront'),
     suggestEnvVars: true,
     suggestions: craft.cp.getEnvSuggestions(),
     value: purger.apiSecret,
@@ -27,13 +26,27 @@
 }) }}
 
 {{ forms.autosuggestField({
-    label: "Distribution ID"|t('blitz'),
+    label: 'Distribution ID'|t('blitz-cloudfront'),
     id: 'distributionId',
     name: 'distributionId',
-    instructions: "The ID of the CloudFlare distribution that should be purged."|t('blitz'),
+    instructions: 'The ID of the CloudFlare distribution that should be purged.'|t('blitz-cloudfront'),
     suggestEnvVars: true,
     suggestions: craft.cp.getEnvSuggestions(),
     value: purger.distributionId,
     errors: purger.getErrors('distributionId'),
     required: true,
+}) }}
+
+{% set info %}
+    <span class="info">
+        {{- 'Enabling this can help reduce the number of invalidation paths sent to the CloudFront API, potentially saving on invalidation request charges. This works by condensing multiple invalidation URLs into a single URL with a wildcard character after the longest common prefix. A path that includes the `*` wildcard counts as one path even if it causes CloudFront to invalidate thousands of files.'|t('blitz-cloudfront') -}}
+    </span>
+{% endset %}
+{{ forms.lightswitchField({
+    label: 'Condense URLs'|t('blitz-cloudfront'),
+    id: 'condenseUrls',
+    name: 'condenseUrls',
+    instructions: 'Whether to condense multiple invalidation URLs into a single URL with a wildcard.'|t('blitz-cloudfront') ~ info,
+    on: purger.condenseUrls,
+    errors: purger.getErrors('condenseUrls'),
 }) }}

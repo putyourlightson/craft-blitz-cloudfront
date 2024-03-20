@@ -36,6 +36,11 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @var string
      */
+    public const VERSION = 'latest';
+
+    /**
+     * @var string
+     */
     public string $apiKey = '';
 
     /**
@@ -49,9 +54,9 @@ class CloudFrontPurger extends BaseCachePurger
     public string $distributionId = '';
 
     /**
-     * @var string
+     * @var bool
      */
-    private string $version = 'latest';
+    public bool $condenseUrls = false;
 
     /**
      * @inheritdoc
@@ -142,6 +147,10 @@ class CloudFrontPurger extends BaseCachePurger
 
         $urls = SiteUriHelper::getUrlsFromSiteUris($siteUris);
 
+        if ($this->condenseUrls) {
+            $urls = $this->getCondensedUrls($urls);
+        }
+
         $count = 0;
         $total = count($urls);
         $label = 'Purging {total} pages.';
@@ -188,6 +197,40 @@ class CloudFrontPurger extends BaseCachePurger
     }
 
     /**
+     * Returns condensed URLs by eagerly adding a wildcard character.
+     * This overly simplified method returns a single URL with a wildcard character after the longest common prefix.
+     *
+     * @param string[] $urls
+     * @return string[]
+     */
+    public function getCondensedUrls(array $urls): array
+    {
+        if (count($urls) < 2) {
+            return $urls;
+        }
+
+        // Get the longest common prefix between the two most dissimilar strings.
+        sort($urls);
+
+        return [$this->getLongestCommonPrefix(reset($urls), end($urls)) . '*'];
+    }
+
+    /**
+     * Returns the longest common prefix between two strings.
+     */
+    private function getLongestCommonPrefix($str1, $str2): string
+    {
+        $length = min(strlen($str1), strlen($str2));
+        for ($i = 0; $i < $length; $i++) {
+            if ($str1[$i] !== $str2[$i]) {
+                return substr($str1, 0, $i);
+            }
+        }
+
+        return substr($str1, 0, $length);
+    }
+
+    /**
      * Returns a path from a URL.
      */
     private function getPathFromUrl(string $url): string
@@ -217,7 +260,7 @@ class CloudFrontPurger extends BaseCachePurger
     private function sendRequest(array $paths): bool
     {
         $config = [
-            'version' => $this->version,
+            'version' => self::VERSION,
             'region' => self::REGION,
         ];
 
