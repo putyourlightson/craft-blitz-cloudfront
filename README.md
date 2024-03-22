@@ -5,7 +5,7 @@
 
 # Blitz CloudFront Purger Plugin for Craft CMS
 
-The CloudFront Purger plugin allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge pages cached on AWS CloudFront.
+The CloudFront Purger plugin allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge pages cached on [AWS CloudFront](https://aws.amazon.com/cloudfront/).
 
 **Note that Amazon CloudFront charges for invalidation requests. Since invalidation requests can quickly add up when purging individual URLs, you should be aware of the potential costs. PutYourLightsOn takes no responsibility whatsoever for expenses incurred.**
 
