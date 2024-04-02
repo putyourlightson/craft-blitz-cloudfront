@@ -13,13 +13,9 @@ The CloudFront Purger plugin allows the [Blitz](https://putyourlightson.com/plug
 
 Source: [docs.aws.amazon.com](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#PayingForInvalidation)
 
-## Documentation
-
-Read the documentation at [putyourlightson.com/plugins/blitz »](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers)
-
 ## License
 
-This plugin is licensed for free under the MIT License.
+This plugin requires a free commercial license available through the [Craft Plugin Store](https://plugins.craftcms.com/blitz-cloudfront).
 
 ## Requirements
 
@@ -33,7 +29,9 @@ To install the plugin, search for “Blitz CloudFront Purger” in the Craft Plu
 composer require putyourlightson/craft-blitz-cloudfront
 ```
 
-You can then select the purger and settings either in the control panel or in `config/blitz.php`.
+## Usage
+
+Once installed, the CloudFront Purger can be selected in the Blitz plugin settings or in `config/blitz.php`.
 
 ```php
 // The purger type to use.
