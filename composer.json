@@ -1,7 +1,7 @@
 {
   "name": "putyourlightson/craft-blitz-cloudfront",
   "description": "CloudFront cache purger for the Blitz plugin.",
-  "version": "5.0.0-beta.1",
+  "version": "5.0.0",
   "type": "craft-plugin",
   "homepage": "https://putyourlightson.com/plugins/blitz",
   "license": "proprietary",
@@ -16,8 +16,8 @@
   ],
   "require": {
     "php": "^8.2",
-    "craftcms/cms": "^5.0.0-beta.1",
-    "putyourlightson/craft-blitz": "^5.0.0-beta.1",
+    "craftcms/cms": "^5.0",
+    "putyourlightson/craft-blitz": "^5.0",
     "aws/aws-sdk-php": "^3.0"
   },
   "require-dev": {
@@ -57,7 +57,7 @@
     "developer": "PutYourLightsOn",
     "developerUrl": "https://putyourlightson.com/",
     "documentationUrl": "https://github.com/putyourlightson/craft-blitz-cloudfront",
-    "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v5/CHANGELOG.md",
+    "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/develop/CHANGELOG.md",
     "class": "putyourlightson\\blitzcloudfront\\Plugin"
   }
 }

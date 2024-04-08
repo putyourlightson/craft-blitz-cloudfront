@@ -1,7 +1,7 @@
 [![Stable Version](https://img.shields.io/packagist/v/putyourlightson/craft-blitz-cloudfront?label=stable)]((https://packagist.org/packages/putyourlightson/craft-blitz-cloudfront))
 [![Total Downloads](https://img.shields.io/packagist/dt/putyourlightson/craft-blitz-cloudfront)](https://packagist.org/packages/putyourlightson/craft-blitz-cloudfront)
 
-<p align="center"><img width="130" src="https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/v5/src/icon.svg"></p>
+<p align="center"><img width="130" src="https://raw.githubusercontent.com/putyourlightson/craft-blitz-cloudfront/develop/src/icon.svg"></p>
 
 # Blitz CloudFront Purger Plugin for Craft CMS
 
@@ -22,7 +22,7 @@ Read the documentation at [putyourlightson.com/plugins/blitz](https://putyourlig
 
 ## License
 
-This plugin is licensed for free under the MIT License.
+This plugin requires a free commercial license available through the [Craft Plugin Store](https://plugins.craftcms.com/blitz-cloudfront).
 
 ## Requirements
 
