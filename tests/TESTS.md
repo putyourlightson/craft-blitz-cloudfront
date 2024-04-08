@@ -1,6 +1,6 @@
 # Test Specification
 
-This document outlines the test specification for the Blitz CloudFront module.
+This document outlines the test specification for the Blitz CloudFront plugin.
 
 ---
 

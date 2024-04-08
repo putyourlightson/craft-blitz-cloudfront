@@ -2,8 +2,7 @@
 
 ## Static Analysis
 
-To run static analysis on the module,
-install [PHPStan for Craft CMS](https://github.com/craftcms/phpstan) and run the following command from the root of your project.
+To run static analysis on the plugin, install [PHPStan for Craft CMS](https://github.com/craftcms/phpstan) and run the following command from the root of your project.
 
 ```shell
 ./vendor/bin/phpstan analyse -c vendor/putyourlightson/craft-blitz-cloudfront/phpstan.neon  --memory-limit 1G

@@ -5,7 +5,7 @@
 
 # Blitz CloudFront Purger Plugin for Craft CMS
 
-The CloudFront Purger plugin allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge pages cached on AWS CloudFront.
+The CloudFront Purger plugin allows the [Blitz](https://putyourlightson.com/plugins/blitz) plugin for [Craft CMS](https://craftcms.com/) to intelligently purge pages cached on [AWS CloudFront](https://aws.amazon.com/cloudfront/).
 
 **Note that Amazon CloudFront charges for invalidation requests. Since
 invalidation requests can quickly add up when purging individual URLs, you
@@ -15,10 +15,6 @@ whatsoever for expenses incurred.**
 > The first 1,000 invalidation paths that you submit per month are free; you pay for each invalidation path over 1,000 in a month. An invalidation path can be for a single file (such as `/images/logo.jpg`) or for multiple files (such as `/images/*`). A path that includes the `*` wildcard counts as one path even if it causes CloudFront to invalidate thousands of files.
 
 Source: [docs.aws.amazon.com](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#PayingForInvalidation)
-
-## Documentation
-
-Read the documentation at [putyourlightson.com/plugins/blitz](https://putyourlightson.com/plugins/blitz#reverse-proxy-purgers).
 
 ## License
 
@@ -36,7 +32,9 @@ To install the plugin, search for “Blitz CloudFront Purger” in the Craft Plu
 composer require putyourlightson/craft-blitz-cloudfront
 ```
 
-You can then select the purger and settings either in the control panel or in `config/blitz.php`.
+## Usage
+
+Once installed, the CloudFront Purger can be selected in the Blitz plugin settings or in `config/blitz.php`.
 
 ```php
 // The purger type to use.

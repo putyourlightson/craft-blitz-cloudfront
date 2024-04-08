@@ -256,6 +256,8 @@ class CloudFrontPurger extends BaseCachePurger
 
     /**
      * Sends a request to the API.
+     *
+     * @param string[] $paths
      */
     private function sendRequest(array $paths): bool
     {
