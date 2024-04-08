@@ -22,9 +22,7 @@
   },
   "require-dev": {
     "craftcms/ecs": "dev-main",
-    "craftcms/phpstan": "dev-main",
-    "mockery/mockery": "^1.0",
-    "putyourlightson/craft-generate-test-spec": "v2.x-dev"
+    "craftcms/phpstan": "dev-main"
   },
   "scripts": {
     "phpstan": "phpstan --ansi --memory-limit=1G",
