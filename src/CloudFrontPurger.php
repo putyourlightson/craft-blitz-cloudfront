@@ -120,6 +120,21 @@ class CloudFrontPurger extends BaseCachePurger
     /**
      * @inheritdoc
      */
+    public function purgeSite(int $siteId, callable $setProgressHandler = null, bool $queue = true): void
+    {
+        $site = Craft::$app->getSites()->getSiteById($siteId);
+        if ($site === null) {
+            return;
+        }
+
+        $path = $this->getPathFromUrl($site->getBaseUrl());
+        $path = rtrim($path, '/');
+        $this->sendRequest([$path . '/*']);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function purgeAll(callable $setProgressHandler = null, bool $queue = true): void
     {
         $event = new RefreshCacheEvent();
