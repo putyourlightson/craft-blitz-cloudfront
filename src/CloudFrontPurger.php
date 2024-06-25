@@ -192,13 +192,7 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function test(): bool
     {
-        $response = $this->sendRequest(['/test']);
-
-        if (!$response) {
-            return false;
-        }
-
-        return true;
+        return $this->sendRequest(['/test']);
     }
 
     /**
