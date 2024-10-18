@@ -9,7 +9,6 @@
     suggestions: craft.cp.getEnvSuggestions(),
     value: purger.apiKey,
     errors: purger.getErrors('apiKey'),
-    required: true,
     first: true,
 }) }}
 
@@ -22,7 +21,6 @@
     suggestions: craft.cp.getEnvSuggestions(),
     value: purger.apiSecret,
     errors: purger.getErrors('apiSecret'),
-    required: true,
 }) }}
 
 {{ forms.autosuggestField({

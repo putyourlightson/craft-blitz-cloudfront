@@ -1,5 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 4.1.2 - 2024-10-18
+
+### Fixed
+
+- Fixed the required indicators in the plugin settings page ([#13](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/13)).
+
 ## 4.1.1 - 2024-10-18
 
 ### Fixed
