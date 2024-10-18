@@ -113,7 +113,7 @@ class CloudFrontPurger extends BaseCachePurger
     public function rules(): array
     {
         return [
-            [['apiKey', 'apiSecret', 'distributionId'], 'required'],
+            [['distributionId'], 'required'],
         ];
     }
 
