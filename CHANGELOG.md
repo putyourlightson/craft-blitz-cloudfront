@@ -1,5 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 5.1.1 - 2024-10-18
+
+### Fixed
+
+- Fixed the ability to leave the API key and secret empty ([#13](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/13)).
+
 ## 5.1.0 - 2024-06-25
 
 ### Changed
