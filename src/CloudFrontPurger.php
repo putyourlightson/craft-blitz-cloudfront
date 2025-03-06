@@ -255,9 +255,15 @@ class CloudFrontPurger extends BaseCachePurger
         $encodedReservedCharacters = ['%3B', '%2F', '%3F', '%3A', '%40', '%3D', '%26', '%2A'];
         $path = str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($path));
 
-        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
+        // Always remove the slash at the end of the path
+        // The CraftCMS root url of a site always has a trailing slash regardless of `addTrailingSlashesToUrls` setting
+        // Related with : https://github.com/putyourlightson/craft-blitz/issues/317
+        // and : https://github.com/craftcms/cms/issues/5675    
+        $path = rtrim($path, '/');
+        
+        // Only append a trailing slash when `addTrailingSlashesToUrls` is `true`.
         if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-            $path = rtrim($path, '/') . '/';
+            $path .= '/';
         }
 
         return $path;
