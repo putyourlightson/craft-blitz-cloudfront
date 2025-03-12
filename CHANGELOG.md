@@ -1,10 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
-## 5.1.3 - Unreleased
+## 5.1.3 - 2025-03-12
 
 ### Fixed
 
 - Fixed a typo in the field instructions on the plugin settings page ([#14](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/14)).
+- Fixed a bug in which base site URLs containing sub-paths were not being purged ([#15](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/15)).
 
 ## 5.1.2 - 2024-10-18
 
