@@ -128,8 +128,8 @@ class CloudFrontPurger extends BaseCachePurger
         }
 
         $path = $this->getPathFromUrl($site->getBaseUrl());
-        $path = rtrim($path, '/');
-        $this->sendRequest([$path . '/*']);
+        $wildcardPath = rtrim($path, '/') . '/*';
+        $this->sendRequest([$path, $wildcardPath]);
     }
 
     /**
@@ -255,9 +255,13 @@ class CloudFrontPurger extends BaseCachePurger
         $encodedReservedCharacters = ['%3B', '%2F', '%3F', '%3A', '%40', '%3D', '%26', '%2A'];
         $path = str_replace($encodedReservedCharacters, $reservedCharacters, urlencode($path));
 
-        // Append a trailing slash if `addTrailingSlashesToUrls` is `true`.
+        // CloudFront treats URLs with and without trailing slashes as distinct.
+        // https://github.com/putyourlightson/craft-blitz-cloudfront/pull/15
+        $path = rtrim($path, '/');
+
+        // Append a trailing slash if `addTrailingSlashesToUrls` is enabled.
         if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-            $path = rtrim($path, '/') . '/';
+            $path = $path . '/';
         }
 
         return $path;
