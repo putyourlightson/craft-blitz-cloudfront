@@ -42,11 +42,10 @@ Once installed, the CloudFront Purger can be selected in the Blitz plugin settin
 
 // The purger settings.
 'cachePurgerSettings' => [
-   'region' => 'us-east-1',
    'apiKey' => 'p_prod_abcdefgh1234567890',
    'apiSecret' => 's_prod_abcdefgh1234567890',
    'distributionId' => '123456789',
-   'warmCacheDelay' => '5',
+   'condenseUrls' => false,
 ],
 ```
 
