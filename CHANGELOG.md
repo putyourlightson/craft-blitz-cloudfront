@@ -1,5 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 4.1.4 - 2025-03-19
+
+### Fixed
+
+- Fixed a bug in which the base site URL was not being purged ([#15](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/15)).
+
 ## 4.1.3 - 2025-03-12
 
 ### Fixed

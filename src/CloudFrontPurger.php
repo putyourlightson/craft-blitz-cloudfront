@@ -264,6 +264,11 @@ class CloudFrontPurger extends BaseCachePurger
             $path = $path . '/';
         }
 
+        // Set to a trailing slash if the path is empty.
+        if ($path === '') {
+            $path = '/';
+        }
+
         return $path;
     }
 
