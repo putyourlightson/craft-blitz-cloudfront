@@ -17,6 +17,7 @@ use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
 use putyourlightson\blitz\events\RefreshCacheEvent;
 use putyourlightson\blitz\helpers\SiteUriHelper;
+use putyourlightson\blitzcloudfront\events\PurgeSiteUrisEvent;
 use yii\base\Event;
 use yii\log\Logger;
 
@@ -25,6 +26,27 @@ use yii\log\Logger;
  */
 class CloudFrontPurger extends BaseCachePurger
 {
+    /**
+     * @event PurgeSiteUrisEvent The event that is triggered before site URIs are purged.
+     *
+     *  ```php
+     *  use putyourlightson\blitzcloudfront\CloudFrontPurger;
+     *  use putyourlightson\blitzcloudfront\events\PurgeSiteUrisEvent;
+     *  use yii\base\Event;
+     *
+     *  Event::on(CloudFrontPurger::class, CloudFrontPurger::EVENT_BEFORE_PURGE_SITE_URIS, function (RefreshCacheEvent $event) {
+     *      foreach ($event->siteUris as $key => $siteUri) {
+     *          $uri = isArray($siteUri) ? $siteUri['uri'] : $siteUri->uri;
+     *          if (str_contains($uri, 'leave-me-out-of-this')) {
+     *              // Removes a single site URI.
+     *              unset($event->siteUris[$key]);
+     *          }
+     *      }
+     *  });
+     *  ```
+     */
+    public const EVENT_BEFORE_PURGE_SITE_URIS = 'beforePurgeSiteUris';
+
     /**
      * The CloudFront service endpoint only allows connecting through a single region.
      * https://docs.aws.amazon.com/general/latest/gr/cf_region.html
@@ -156,6 +178,15 @@ class CloudFrontPurger extends BaseCachePurger
      */
     public function purgeUrisWithProgress(array $siteUris, callable $setProgressHandler = null): void
     {
+        $event = new PurgeSiteUrisEvent(['siteUris' => $siteUris]);
+        $this->trigger(self::EVENT_BEFORE_PURGE_SITE_URIS, $event);
+
+        if (!$event->isValid) {
+            return;
+        }
+
+        $siteUris = $event->siteUris;
+
         if (empty($siteUris)) {
             return;
         }

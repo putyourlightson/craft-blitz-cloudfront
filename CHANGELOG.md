@@ -1,5 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 5.2.0 - 2025-04-01
+
+### Added
+
+- Added a `beforePurgeSiteUris` event that can be used to modify which site URIs to purge.
+
 ## 5.1.4 - 2025-03-19
 
 ### Fixed
