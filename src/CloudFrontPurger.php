@@ -37,7 +37,7 @@ class CloudFrontPurger extends BaseCachePurger
      *  Event::on(CloudFrontPurger::class, CloudFrontPurger::EVENT_BEFORE_PURGE_SITE_URIS,
      *      function (PurgeSiteUrisEvent $event) {
      *          foreach ($event->siteUris as $key => $siteUri) {
-     *              $uri = isArray($siteUri) ? $siteUri['uri'] : $siteUri->uri;
+     *              $uri = is_array($siteUri) ? $siteUri['uri'] : $siteUri->uri;
      *              if (str_contains($uri, 'leave-me-out-of-this')) {
      *                  // Removes a single site URI.
      *                  unset($event->siteUris[$key]);
