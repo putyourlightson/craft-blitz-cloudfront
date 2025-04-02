@@ -34,15 +34,17 @@ class CloudFrontPurger extends BaseCachePurger
      *  use putyourlightson\blitzcloudfront\events\PurgeSiteUrisEvent;
      *  use yii\base\Event;
      *
-     *  Event::on(CloudFrontPurger::class, CloudFrontPurger::EVENT_BEFORE_PURGE_SITE_URIS, function (RefreshCacheEvent $event) {
-     *      foreach ($event->siteUris as $key => $siteUri) {
-     *          $uri = isArray($siteUri) ? $siteUri['uri'] : $siteUri->uri;
-     *          if (str_contains($uri, 'leave-me-out-of-this')) {
-     *              // Removes a single site URI.
-     *              unset($event->siteUris[$key]);
+     *  Event::on(CloudFrontPurger::class, CloudFrontPurger::EVENT_BEFORE_PURGE_SITE_URIS,
+     *      function (PurgeSiteUrisEvent $event) {
+     *          foreach ($event->siteUris as $key => $siteUri) {
+     *              $uri = isArray($siteUri) ? $siteUri['uri'] : $siteUri->uri;
+     *              if (str_contains($uri, 'leave-me-out-of-this')) {
+     *                  // Removes a single site URI.
+     *                  unset($event->siteUris[$key]);
+     *              }
      *          }
      *      }
-     *  });
+     *  );
      *  ```
      */
     public const EVENT_BEFORE_PURGE_SITE_URIS = 'beforePurgeSiteUris';
