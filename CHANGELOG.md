@@ -4,7 +4,7 @@
 
 ### Fixed
 
-- Fixed a bug in which invalidation requests sent within the same second could be rejected or reuse an earlier invalidation ([#17](https://github.com/putyourlightson/craft-blitz-cloudfront/pull/17)).
+- Fixed a bug in which invalidation requests sent within the same second could be rejected or reuse an earlier invalidation ([#18](https://github.com/putyourlightson/craft-blitz-cloudfront/issues/18)).
 
 ## 5.2.0 - 2025-04-01
 
