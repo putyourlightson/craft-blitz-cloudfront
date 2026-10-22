@@ -12,6 +12,7 @@ use Craft;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\helpers\App;
+use craft\helpers\StringHelper;
 use craft\web\View;
 use putyourlightson\blitz\Blitz;
 use putyourlightson\blitz\drivers\purgers\BaseCachePurger;
@@ -333,7 +334,7 @@ class CloudFrontPurger extends BaseCachePurger
             $client->createInvalidation([
                 'DistributionId' => App::parseEnv($this->distributionId),
                 'InvalidationBatch' => [
-                    'CallerReference' => time(),
+                    'CallerReference' => StringHelper::UUID(),
                     'Paths' => [
                         'Items' => $paths,
                         'Quantity' => count($paths),
