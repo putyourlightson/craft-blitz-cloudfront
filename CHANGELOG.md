@@ -1,5 +1,11 @@
 # Release Notes for Blitz CloudFront Purger
 
+## 5.2.1 - 2026-10-22
+
+### Fixed
+
+- Fixed a bug in which invalidation requests sent within the same second could be rejected or reuse an earlier invalidation ([#17](https://github.com/putyourlightson/craft-blitz-cloudfront/pull/17)).
+
 ## 5.2.0 - 2025-04-01
 
 ### Added
